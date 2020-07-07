@@ -1,0 +1,9 @@
+steps:
+# This step runs the unit tests on the app
+- name: 'python:3.6-slim'
+  id: Test
+  entrypoint: /bin/sh
+  args:
+  - -c
+  - 'pip3 install ansible-bender'
+
