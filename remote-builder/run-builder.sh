@@ -31,6 +31,8 @@ ${GCLOUD} compute instances create \
        --metadata block-project-ssh-keys=TRUE \
        --metadata-from-file ssh-keys=ssh-keys
 
+sleep 60
+
 trap cleanup EXIT
 
 ${GCLOUD} compute scp --compress --recurse \
