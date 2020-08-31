@@ -6,7 +6,7 @@ steps:
   args:
   - -c
   - 'id && pwd &&
-yum -y install python3 &&
+yum -y install python3 wget &&
 pip3 install ansible-bender && 
 cd /etc/yum.repos.d/ &&
 wget https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/CentOS_7/devel:kubic:libcontainers:stable.repo &&
