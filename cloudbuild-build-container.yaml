@@ -1,20 +1,8 @@
 steps:
-# This step runs the unit tests on the app
-- name: 'centos:7'
-  id: Test
-  entrypoint: /bin/sh
-  args:
-  - -c
-  - 'id && pwd &&
-yum -y install python3 wget &&
-pip3 install ansible-bender && 
-cd /etc/yum.repos.d/ &&
-wget https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/CentOS_7/devel:kubic:libcontainers:stable.repo &&
-yum -y install buildah podman &&
-sed -e "s/^mountopt = \"nodev,metacopy=on\"/mountopt = \"nodev\"/" /etc/containers/storage.conf &&
-systemctl start podman &&
-pip uninstall ansible &&
-pip3 install ansible &&
-ansible-bender build main.yml
-'
-
+- name: gcr.io/$PROJECT_ID/remote-builder
+  waitFor: ["-"]
+  env:
+    - INSTANCE_ARGS=--image-family centos-7
+    - ZONE=asia-northeast2
+    - USERNAME=cloud-user
+    - COMMAND=ls
