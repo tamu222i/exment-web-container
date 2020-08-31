@@ -3,6 +3,6 @@ steps:
   waitFor: ["-"]
   env:
     - INSTANCE_ARGS=--image-family centos-7
-    - ZONE=asia-northeast2
+    - ZONE=asia-northeast2-a
     - USERNAME=cloud-user
     - COMMAND=ls
