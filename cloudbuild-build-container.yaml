@@ -11,7 +11,7 @@ pip3 install ansible-bender &&
 cd /etc/yum.repos.d/ &&
 wget https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/CentOS_7/devel:kubic:libcontainers:stable.repo &&
 yum -y install buildah podman &&
-sed "/^mountopt = \"nodev,metacopy=on\"/mountopt = \"nodev\"" /etc/containers/storage.conf &&
+sed -e "s/^mountopt = \"nodev,metacopy=on\"/mountopt = \"nodev\"/" /etc/containers/storage.conf &&
 systemctl start podman &&
 pip uninstall ansible &&
 pip3 install ansible &&
