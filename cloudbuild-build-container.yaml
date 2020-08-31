@@ -5,7 +5,8 @@ steps:
   entrypoint: /bin/sh
   args:
   - -c
-  - 'pip3 install ansible-bender && 
+  - 'yum -y install python3 &&
+pip3 install ansible-bender && 
 cd /etc/yum.repos.d/ &&
 sudo wget https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/CentOS_7/devel:kubic:libcontainers:stable.repo &&
 sudo yum -y install buildah podman
