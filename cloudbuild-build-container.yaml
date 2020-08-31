@@ -2,7 +2,7 @@ steps:
 - name: gcr.io/$PROJECT_ID/remote-builder
   waitFor: ["-"]
   env:
-    - INSTANCE_ARGS=--image-family centos-7
-    - ZONE=asia-northeast2
+    - INSTANCE_ARGS=--image-project centos-cloud --image-family centos-7
+    - ZONE=asia-northeast2-a
     - USERNAME=cloud-user
     - COMMAND=ls
