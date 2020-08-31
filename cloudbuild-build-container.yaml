@@ -1,9 +1,13 @@
 steps:
 # This step runs the unit tests on the app
-- name: 'python:3.6-slim'
+- name: 'centos:7'
   id: Test
   entrypoint: /bin/sh
   args:
   - -c
-  - 'pip3 install ansible-bender'
+  - 'pip3 install ansible-bender && 
+cd /etc/yum.repos.d/ &&
+sudo wget https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/CentOS_7/devel:kubic:libcontainers:stable.repo &&
+sudo yum -y install buildah podman
+'
 
