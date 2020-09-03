@@ -1,0 +1,12 @@
+- name: ntpd container
+  hosts: all
+  vars:
+    ansible_bender:
+      base_image: debian-python3:buster
+      target_image:
+        name: debian-ntpd:buster
+  tasks:
+   - name: install ntpd
+     apt:
+       name: apache2
+       state: latest
