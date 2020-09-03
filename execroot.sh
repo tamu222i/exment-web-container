@@ -10,4 +10,5 @@ wget https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable
 yum -y install buildah podman
 sed -i -e "s/^mountopt = \"nodev,metacopy=on\"/mountopt = \"nodev\"/" /etc/containers/storage.conf
 systemctl start podman
+cd /home/cloud-user/workspace/ansible
 ansible-bender build main.yml
