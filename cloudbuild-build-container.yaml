@@ -8,7 +8,7 @@ steps:
     - >
       COMMAND=id && 
       pwd && 
-      sudo su - &&
+      sudo su &&
       yum -y install python3 wget && 
       pip3 install ansible-bender selinux ansible && 
       ### yum error occured
@@ -22,4 +22,4 @@ steps:
       yum -y install buildah podman && 
       sed -i -e "s/^mountopt = \"nodev,metacopy=on\"/mountopt = \"nodev\"/" /etc/containers/storage.conf && 
       systemctl start podman && 
-      ansible-bender build main.yml
+      ansible-bender build main.yml && 
