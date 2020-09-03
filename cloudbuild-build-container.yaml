@@ -12,5 +12,5 @@ steps:
     - >
       COMMAND=id && 
       pwd && 
-      cd workspace
+      cd workspace &&
       sudo bash -xe execroot.sh
