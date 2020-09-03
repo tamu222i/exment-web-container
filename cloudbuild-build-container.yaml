@@ -8,13 +8,13 @@ steps:
     - >
       COMMAND=id && 
       pwd && 
-      yum -y install python3 wget && 
-      pip3 install ansible-bender && 
+      sudo yum -y install python3 wget && 
+      sudo pip3 install ansible-bender && 
       cd /etc/yum.repos.d/ && 
-      wget https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/CentOS_7/devel:kubic:libcontainers:stable.repo && 
-      yum -y install buildah podman && 
-      sed -i -e "s/^mountopt = \"nodev,metacopy=on\"/mountopt = \"nodev\"/" /etc/containers/storage.conf && 
-      systemctl start podman && 
-      pip uninstall ansible && 
-      pip3 install ansible && 
-      ansible-bender build main.yml
+      sudo wget https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/CentOS_7/devel:kubic:libcontainers:stable.repo && 
+      sudo yum -y install buildah podman && 
+      sudo sed -i -e "s/^mountopt = \"nodev,metacopy=on\"/mountopt = \"nodev\"/" /etc/containers/storage.conf && 
+      sudo systemctl start podman && 
+      sudo pip uninstall ansible && 
+      sudo pip3 install ansible && 
+      sudo ansible-bender build main.yml
