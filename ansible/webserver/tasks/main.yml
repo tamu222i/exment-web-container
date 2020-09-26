@@ -47,11 +47,12 @@
   #shell: |
   #  yum -y install --enablerepo=remi-php72 httpd openssl mod_ssl mysql php72 php72-php  php-mbstring php-mysqli php-dom php-gd.x86_64 php-zip
 
-- name: apache start
-  service:
-    name: httpd.service
-    state: started
-    enabled: true
+# need privilaged container
+#- name: apache start
+#  service:
+#    name: httpd.service
+#    state: started
+#    enabled: true
   #shell: |
   #  systemctl enable httpd.service
   #  systemctl start httpd.service
@@ -123,11 +124,12 @@
           Require all granted
         </Directory>
       </VirtualHost>
-- name: apache restart
-  service:
-    name: httpd.service
-    state: restarted
-    enabled: true
+# need privilaged container
+#- name: apache restart
+#  service:
+#    name: httpd.service
+#    state: restarted
+#    enabled: true
 
 - name: Check exment
   stat: path=/var/www/exment
@@ -141,6 +143,7 @@
     rm exment.zip -f
     cd exment
     composer install
+    composer dump-autoload -o
   when: exment_installed.stat.exists == false
 
 - name: change user
@@ -156,15 +159,17 @@
 - name: change permission
   file: 
     path: "{{ item }}"
-    mode: 755
+    mode: '755'
     recurse: yes
   with_items: 
     - /var/www/exment/storage
     - /var/www/exment/bootstrap/cache
 
-- name: install for selinux
-  yum: name=libselinux-python state=installed
+# not install selinux?
+#- name: install for selinux
+#  yum: name=libselinux-python state=installed
  
-- name: disable selinux
-  selinux: state=disabled
-  register: selinux
+# not install selinux?
+#- name: disable selinux
+#  selinux: state=disabled
+#  register: selinux
