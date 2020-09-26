@@ -1,12 +1,11 @@
-- name: ntpd container
+- name: setting image
   hosts: all
+  vars_files:
+    - ./host_vars/webserver.yml
   vars:
     ansible_bender:
-      base_image: debian-python3:buster
+      base_image: centos:7
       target_image:
-        name: debian-ntpd:buster
-  tasks:
-   - name: install ntpd
-     apt:
-       name: apache2
-       state: latest
+        name: tamu222i:exment-web
+  roles:
+    - webserver

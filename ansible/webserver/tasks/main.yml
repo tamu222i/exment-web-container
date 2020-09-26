@@ -1,0 +1,170 @@
+---
+# @see https://exment.net/docs/#/ja/install_linux
+- name: install requirements
+  yum:
+    name: "{{ item }}"
+    state: present
+  vars: 
+    item: 
+    - vim
+    - git
+    - wget
+    - firewalld
+    - unzip
+  #shell: |
+  #  yum -y update
+  #  yum install -y wget firewalld unzip
+
+- name: Check epel package
+  stat: path=/home/vagrant/epel-release-7-12.noarch.rpm
+  register: epel_installed
+
+- name: install epel
+  shell: |
+    wget https://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-12.noarch.rpm
+    rpm -ivh epel-release-7-12.noarch.rpm
+    yum -y install http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+  when: epel_installed.stat.exists == false
+
+- name: install php72
+  yum:
+    name: "{{ item }}"
+    state: present
+    enablerepo: remi-php72
+  vars: 
+    item: 
+    - httpd
+    - openssl
+    - mod_ssl
+    - mysql
+    - php72
+    - php72-php
+    - php-mbstring
+    - php-mysqli
+    - php-dom
+    - php-gd.x86_64 
+    - php-zip
+  #shell: |
+  #  yum -y install --enablerepo=remi-php72 httpd openssl mod_ssl mysql php72 php72-php  php-mbstring php-mysqli php-dom php-gd.x86_64 php-zip
+
+- name: apache start
+  service:
+    name: httpd.service
+    state: started
+    enabled: true
+  #shell: |
+  #  systemctl enable httpd.service
+  #  systemctl start httpd.service
+  #  service httpd start
+
+- name: firewall setting
+  firewalld: 
+    service: "{{ item }}"
+    permanent: true
+    state: enabled
+  with_items: 
+    - http
+    - https
+  #shell: |
+  #  systemctl start firewalld
+  #  systemctl enable firewalld
+  #  firewall-cmd --add-service=http --zone=public --permanent
+  #  firewall-cmd --add-service=https --zone=public --permanent
+  #  systemctl reload firewalld
+
+- name: make symbolic link
+  file: 
+    src: /usr/bin/php72
+    dest: /usr/bin/php
+    state: link
+  # shell: ln -s /usr/bin/php72 /usr/bin/php
+
+- name: Check composer
+  stat: path=/usr/local/bin/composer
+  register: composer_installed
+
+- name: install composer
+  shell: |
+    cd ~
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    php composer-setup.php
+    php -r "unlink('composer-setup.php');"
+    mv composer.phar /usr/local/bin/composer
+  when: composer_installed.stat.exists == false
+
+- name: setting php.ini
+  blockinfile:
+    path: /etc/opt/remi/php72/php.ini
+    insertafter: EOF
+    content: |
+      extension=mbstring.so
+      extension=dom.so
+      extension=xml.so
+      extension=gd.so
+      extension=simplexml.so
+      extension=xmlreader.so
+      extension=xmlwriter.so
+      extension=zip.so
+      extension=mysqlnd.so
+      extension=mysqli.so
+      extension=pdo.so
+      extension=pdo_mysql.so
+      extension_dir=/usr/lib64/php/modules/
+- name: setting httpd.conf
+  blockinfile:
+    path: /etc/httpd/conf/httpd.conf
+    insertafter: EOF
+    content: |
+      <VirtualHost *:80>
+        DocumentRoot /var/www/exment/public
+        <Directory /var/www/exment/public>
+          Allow from all
+          AllowOverride All
+          Require all granted
+        </Directory>
+      </VirtualHost>
+- name: apache restart
+  service:
+    name: httpd.service
+    state: restarted
+    enabled: true
+
+- name: Check exment
+  stat: path=/var/www/exment
+  register: exment_installed
+
+- name: install composer
+  shell: |
+    cd /var/www
+    wget https://exment.net/downloads/ja/exment.zip
+    unzip exment.zip
+    rm exment.zip -f
+    cd exment
+    composer install
+  when: exment_installed.stat.exists == false
+
+- name: change user
+  file: 
+    path: "{{ item }}"
+    owner: apache
+    group: apache
+    state: directory
+    recurse: yes
+  with_items: 
+    - /var/www/exment
+
+- name: change permission
+  file: 
+    path: "{{ item }}"
+    mode: 755
+    recurse: yes
+  with_items: 
+    - /var/www/exment/storage
+    - /var/www/exment/bootstrap/cache
+
+- name: install for selinux
+  yum: name=libselinux-python state=installed
+ 
+- name: disable selinux
+  selinux: state=disabled
+  register: selinux
