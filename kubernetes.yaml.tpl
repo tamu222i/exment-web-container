@@ -17,6 +17,7 @@ spec:
       containers:
       - name: exment-web
         image: docker.io/tamu222i/exment-web:COMMIT_SHA
+        args: ["/usr/sbin/httpd", "-D", "FOREGROUND"]
         ports:
         - containerPort: 8080
 ---
