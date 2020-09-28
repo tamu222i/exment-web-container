@@ -14,5 +14,5 @@ cd /home/cloud-user/workspace/ansible
 ansible-bender build main.yml
 
 podman tag tamu222i:exment-web docker.io/tamu222i/exment-web:latest
-podman login -u tamu222i -p `cat decrypted-data.txt`
+podman login -u tamu222i -p `cat ../decrypted-data.txt`
 podman push docker.io/tamu222i/exment-web:latest
