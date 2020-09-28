@@ -22,3 +22,5 @@ steps:
       export username=tamu222i &&
       export password=`cat decrypted-data.txt` &&
       sudo bash -xe execroot.sh
+
+timeout: 1200s
