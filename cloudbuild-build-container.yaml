@@ -1,10 +1,16 @@
 steps:
+- name: gcr.io/cloud-builders/gcloud
+  entrypoint: 'bash'
+  args: [ '-c', "gcloud secrets versions access latest --secret=dockerpassword --format='get(payload.data)' | tr '_-' '/+' | base64 -d > /workspace/decrypted-data.txt" ]
+
 - name: gcr.io/$PROJECT_ID/remote-builder
   waitFor: ["-"]
   env:
     - INSTANCE_ARGS=--image-project centos-cloud --image-family centos-7 --preemptible
     - ZONE=asia-northeast2-a
     - USERNAME=cloud-user
+#    - password=`cat decrypted-data.txt`
+
       ### yum error occured
       # https://download.opensuse.org/repositories/devel%3A/kubic%3A/libcontainers%3A/stable/CentOS_7/x86_64/conmon-2.0.20-1.el7.x86_64.rpm: [Errno -1] Package does not match intended download. Suggestion: run yum --enablerepo=devel_kubic_libcontainers_stable clean metadata Trying other mirror.
       # Error downloading packages:
@@ -13,4 +19,6 @@ steps:
       COMMAND=id && 
       pwd && 
       cd workspace &&
+      export username=tamu222i &&
+      export password=`cat decrypted-data.txt` &&
       sudo bash -xe execroot.sh
