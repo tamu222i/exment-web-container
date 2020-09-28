@@ -1,7 +1,7 @@
 #!/bin/bash -xe
 export PATH=$PATH:/usr/local/bin
 
-yum -y install python3 wget
+yum -y install python3 wget git
 pip3 install ansible-bender selinux ansible
 wget https://download.opensuse.org/repositories/devel%3A/kubic%3A/libcontainers%3A/stable/CentOS_7/x86_64/conmon-2.0.21-1.el7.x86_64.rpm
 rpm -ivh conmon-2.0.21-1.el7.x86_64.rpm
@@ -13,6 +13,9 @@ systemctl start podman
 cd /home/cloud-user/workspace/ansible
 ansible-bender build main.yml
 
+COMMIT_ID="$(git rev-parse --short=7 HEAD)"
 podman tag tamu222i:exment-web docker.io/tamu222i/exment-web:latest
+podman tag tamu222i:exment-web docker.io/tamu222i/exment-web:$COMMIT_ID
 podman login -u tamu222i -p `cat ../decrypted-data.txt` docker.io
 podman push docker.io/tamu222i/exment-web:latest
+podman push docker.io/tamu222i/exment-web:$COMMIT_ID
