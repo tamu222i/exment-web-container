@@ -9,7 +9,6 @@ data:
   DB_PORT: "3306"
   DB_DATABASE: "exment-database"
   DB_USERNAME: "exment-user"
-  DB_PASSWORD: "mysql0000"
   APP_LOCALE: "ja"
   APP_TIMEZONE: "Asia/Tokyo"
 ---
@@ -33,21 +32,27 @@ spec:
       - name: exment-web
         image: docker.io/tamu222i/exment-web:3935365
         lifecycle:
-            postStart:
-              exec:
-                command:
-                  - sh
-                  - -c
-                  - >
-                    cd /var/www/exment;
-                    php artisan key:generate;
-                    php artisan passport:keys;
-                    php artisan exment:publish;
-                    php artisan exment:install;
+          postStart:
+            exec:
+              command:
+              - sh
+              - -c
+              - >
+                cd /var/www/exment;
+                php artisan key:generate;
+                php artisan passport:keys;
+                php artisan exment:publish;
+                php artisan exment:install;
 
         envFrom:
         - configMapRef:
             name: laravel-config
+        env:
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql
+              key: password
         args: ["/usr/sbin/httpd", "-D", "FOREGROUND"]
         ports:
         - containerPort: 8080

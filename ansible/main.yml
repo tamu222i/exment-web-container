@@ -8,4 +8,5 @@
       target_image:
         name: tamu222i:exment-web
   roles:
-    - webserver
+    - role: webserver
+      tags: [stop-layering]
