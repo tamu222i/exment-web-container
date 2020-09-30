@@ -1,3 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: laravel-config
+  labels:
+    name: laravel-config
+data:
+  DB_HOST: "mysql.default.svc.cluster.local"
+  DB_PORT: "3306"
+  DB_DATABASE: "exment-database"
+  DB_USERNAME: "exment-user"
+  DB_PASSWORD: "mysql0000"
+  APP_LOCALE: "ja"
+  APP_TIMEZONE: "Asia/Tokyo"
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,48 +31,23 @@ spec:
     spec:
       containers:
       - name: exment-web
-        image: docker.io/tamu222i/exment-web:COMMIT_SHA
+        image: docker.io/tamu222i/exment-web:3935365
+        lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - >
+                    cd /var/www/exment;
+                    php artisan key:generate;
+                    php artisan passport:keys;
+                    php artisan exment:publish;
+                    php artisan exment:install;
+
+        envFrom:
+        - configMapRef:
+            name: laravel-config
         args: ["/usr/sbin/httpd", "-D", "FOREGROUND"]
         ports:
         - containerPort: 8080
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: exment-web
-  labels:
-    app: exment-web
-spec:
-  ports:
-    - port: 80
-      targetPort: 80
-      protocol: TCP
-      name: exment-web
-  type: NodePort
-  selector:
-    app: exment-web
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: exment-web
-  annotations:
-    kubernetes.io/ingress.class: "nginx"
-    kubernetes.io/tls-acme: "true"
-spec:
-  tls:
-  - secretName: kubernetes-ingress-tls
-    hosts:
-      - exment-web.tamu222i.com
-  rules:
-  - host: exment-web.tamu222i.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: exment-web
-          servicePort: 80
-      - path: /*
-        backend:
-          serviceName: exment-web
-          servicePort: 80
