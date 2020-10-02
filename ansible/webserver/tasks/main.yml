@@ -141,7 +141,18 @@
     wget https://exment.net/downloads/ja/exment.zip
     unzip exment.zip
     rm exment.zip -f
-    cd exment
+  when: exment_installed.stat.exists == false
+
+- name: setting composer.json
+  blockinfile:
+    path: /var/www/exment/composer.json
+    insertafter: '^"laravel/framework": "5.6.*",'
+    content: |
+      "laravel/socialite": "~3.3.0",
+
+- name: install composer
+  shell: |
+    cd /var/www/exment
     composer install
     composer dump-autoload -o
   when: exment_installed.stat.exists == false
