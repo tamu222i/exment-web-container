@@ -181,10 +181,10 @@
 
 # install google oauth
 # @see https://qiita.com/hirossyi73/items/70dcc35305a96abace08
-- name: install google oauth
-  shell: |
-    cd /var/www/exment
-    composer require laravel/socialite=~3.3.0
+#- name: install google oauth
+#  shell: |
+#    cd /var/www/exment
+#    composer require laravel/socialite=~3.3.0
 
 - name: install google oauth
   copy:
