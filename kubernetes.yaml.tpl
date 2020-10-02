@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: exment-web
-        image: docker.io/tamu222i/exment-web:3935365
+        image: docker.io/tamu222i/exment-web:COMMIT_SHA
         lifecycle:
           postStart:
             exec:
