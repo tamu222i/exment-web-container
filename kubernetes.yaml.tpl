@@ -11,6 +11,7 @@ data:
   DB_USERNAME: "exment-user"
   APP_LOCALE: "ja"
   APP_TIMEZONE: "Asia/Tokyo"
+  GOOGLE_CLIENT_ID: "498313290060-f3kfn8ru6keqilfr8fapfckldu1ghb8k.apps.googleusercontent.com"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -53,6 +54,11 @@ spec:
             secretKeyRef:
               name: mysql
               key: password
+        - name: GOOGLE_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: google
+              key: client_secret
         args: ["/usr/sbin/httpd", "-D", "FOREGROUND"]
         ports:
         - containerPort: 8080

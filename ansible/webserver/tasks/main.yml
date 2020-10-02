@@ -178,4 +178,18 @@
   shell: |
     ln -sf /dev/stdout /var/log/httpd/access_log
     ln -sf /dev/stderr /var/log/httpd/error_log
- 
+
+# install google oauth
+# @see https://qiita.com/hirossyi73/items/70dcc35305a96abace08
+- name: install google oauth
+  chdir: /var/www/exment
+  shell: |
+    composer require laravel/socialite=~3.3.0
+
+- name: install google oauth
+  copy:
+    src: services.php
+    dest: /var/www/exment/config/services.php
+    owner: apache
+    group: apache
+    mode: 0644
