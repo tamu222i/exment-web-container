@@ -153,6 +153,7 @@
 - name: install composer
   shell: |
     cd /var/www/exment
+    cat composer.json
     composer install
     composer dump-autoload -o
   when: exment_installed.stat.exists == false
