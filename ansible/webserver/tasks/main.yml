@@ -144,11 +144,17 @@
   when: exment_installed.stat.exists == false
 
 - name: setting composer.json
-  blockinfile:
-    path: /var/www/exment/composer.json
-    insertafter: '^"laravel/framework": "5.6.*",'
-    content: |
-      "laravel/socialite": "~3.3.0",
+  copy:
+    src: composer.json
+    dest: /var/www/exment/composer.json
+    owner: apache
+    group: apache
+    mode: 0644
+#  blockinfile:
+#    path: /var/www/exment/composer.json
+#    insertafter: '^"laravel/framework": "5.6.*",'
+#    content: |
+#      "laravel/socialite": "~3.3.0",
 
 - name: install composer
   shell: |
