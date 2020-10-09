@@ -143,13 +143,13 @@
     rm exment.zip -f
   when: exment_installed.stat.exists == false
 
-- name: setting composer.json
-  copy:
-    src: composer.json
-    dest: /var/www/exment/composer.json
-    owner: apache
-    group: apache
-    mode: 0644
+#- name: setting composer.json
+#  copy:
+#    src: composer.json
+#    dest: /var/www/exment/composer.json
+#    owner: apache
+#    group: apache
+#    mode: 0644
 #  blockinfile:
 #    path: /var/www/exment/composer.json
 #    insertafter: '^"laravel/framework": "5.6.*",'
@@ -162,6 +162,7 @@
     cat composer.json
     composer install
     composer dump-autoload -o
+    composer require laravel/socialite=~3.3.0
   when: exment_installed.stat.exists == false
 
 - name: change user
