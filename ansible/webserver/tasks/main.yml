@@ -162,7 +162,7 @@
     cat composer.json
     composer install
     composer dump-autoload -o
-    composer require laravel/socialite=~3.3.0
+    COMPOSER_MEMORY_LIMIT=-1 composer require laravel/socialite=~3.3.0
   when: exment_installed.stat.exists == false
 
 - name: change user
