@@ -163,6 +163,12 @@
     composer install
     composer dump-autoload -o
     COMPOSER_MEMORY_LIMIT=-1 composer require laravel/socialite=~3.3.0
+    cd /var/www/exment
+    php artisan key:generate
+    php artisan passport:keys
+    php artisan exment:publish
+    php artisan exment:install
+
   when: exment_installed.stat.exists == false
 
 - name: change user
