@@ -40,9 +40,6 @@ spec:
               - -c
               - >
                 cd /var/www/exment;
-#               php artisan key:generate;
-#                php artisan passport:keys;
-#                php artisan exment:publish;
                 php artisan exment:install;
 
         envFrom:
