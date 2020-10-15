@@ -32,18 +32,18 @@ spec:
       containers:
       - name: exment-web
         image: docker.io/tamu222i/exment-web:COMMIT_SHA
-#        lifecycle:
-#          postStart:
-#            exec:
-#              command:
-#              - sh
-#              - -c
-#              - >
-#                cd /var/www/exment;
+        lifecycle:
+          postStart:
+            exec:
+              command:
+              - sh
+              - -c
+              - >
+                cd /var/www/exment;
 #               php artisan key:generate;
 #                php artisan passport:keys;
 #                php artisan exment:publish;
-#                php artisan exment:install;
+                php artisan exment:install;
 
         envFrom:
         - configMapRef:

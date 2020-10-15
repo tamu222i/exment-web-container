@@ -167,7 +167,7 @@
     php artisan key:generate
     php artisan passport:keys
     php artisan exment:publish
-    php artisan exment:install
+    #php artisan exment:install
 
   when: exment_installed.stat.exists == false
 
