@@ -6,7 +6,7 @@ steps:
 - name: gcr.io/$PROJECT_ID/remote-builder
   waitFor: ["-"]
   env:
-    - INSTANCE_ARGS=--image-project centos-cloud --image-family centos-7 --preemptible --machine-type e2-small
+    - INSTANCE_ARGS=--image-project centos-cloud --image-family centos-7 --preemptible --machine-type e2-small --boot-disk-type=pd-ssd
     - ZONE=asia-northeast2-a
     - USERNAME=cloud-user
 #    - password=`cat decrypted-data.txt`
