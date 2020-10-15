@@ -58,4 +58,4 @@ steps:
     Author: $(git log --format='%an <%ae>' -n 1 HEAD)" && \
     git push origin candidate
 
-timeout: 1800s
+timeout: 3600s
