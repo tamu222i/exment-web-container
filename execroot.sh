@@ -11,8 +11,8 @@ yum -y install buildah podman
 sed -i -e "s/^mountopt = \"nodev,metacopy=on\"/mountopt = \"nodev\"/" /etc/containers/storage.conf
 systemctl start podman
 cd /home/cloud-user/workspace/ansible
-ansible-bender build main.yml 
-#ansible-bender --debug build main.yml 
+#ansible-bender build main.yml 
+ansible-bender --debug build main.yml 
 
 ### test
 podman run -d -p 80:80 tamu222i:exment-web /usr/sbin/httpd -DFOREGROUND
