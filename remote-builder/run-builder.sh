@@ -33,7 +33,7 @@ ${GCLOUD} compute instances create \
 
 sleep 60
 
-if [ -z $NOCLEANUP ] && trap cleanup EXIT
+[ -z "$NOCLEANUP" ] && trap cleanup EXIT;
 
 ${GCLOUD} compute scp --compress --recurse \
        $(pwd) ${USERNAME}@${INSTANCE_NAME}:${REMOTE_WORKSPACE} \
