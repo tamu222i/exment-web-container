@@ -12,6 +12,7 @@ dnf -y install buildah podman
 sed -i -e "s/^mountopt = \"nodev,metacopy=on\"/mountopt = \"nodev\"/" /etc/containers/storage.conf
 #systemctl start podman
 cd /home/cloud-user/workspace/ansible
+export BUILDAH_FORMAT=docker
 #ansible-bender build main.yml 
 ansible-bender --debug build main.yml 
 
