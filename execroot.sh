@@ -3,6 +3,7 @@ export PATH=$PATH:/usr/local/bin
 
 #yum -y install python3 wget git
 dnf -y install wget git
+python3 -m pip install -U pip
 pip3 install ansible-bender selinux ansible testinfra requests
 #wget https://download.opensuse.org/repositories/devel%3A/kubic%3A/libcontainers%3A/stable/CentOS_7/x86_64/conmon-2.0.21-1.el7.x86_64.rpm
 #rpm -ivh conmon-2.0.21-1.el7.x86_64.rpm
