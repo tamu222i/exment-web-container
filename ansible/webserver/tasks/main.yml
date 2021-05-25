@@ -162,7 +162,8 @@
     cat composer.json
     composer install
     composer dump-autoload -o
-    COMPOSER_MEMORY_LIMIT=-1 composer require laravel/socialite=~3.3.0
+    #COMPOSER_MEMORY_LIMIT=-1 composer require laravel/socialite=~3.3.0
+    COMPOSER_MEMORY_LIMIT=-1 composer require laravel/socialite
     cd /var/www/exment
     php artisan key:generate
     php artisan passport:keys
